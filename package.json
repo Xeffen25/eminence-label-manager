@@ -1,17 +1,17 @@
 {
-  "name": "typescript-action",
+  "name": "eminence-label-manager",
   "description": "GitHub Actions TypeScript template",
   "version": "0.0.0",
   "author": "",
   "type": "module",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
+  "homepage": "https://github.com/xeffen25/eminence-label-manager",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/xeffen25/eminence-label-manager.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/xeffen25/eminence-label-manager/issues"
   },
   "keywords": [
     "actions"
