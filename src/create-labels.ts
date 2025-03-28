@@ -42,6 +42,7 @@ export async function createLabels(): Promise<void> {
       }
 
       try {
+        core.info(`Trying to create label: ${label.name}`)
         await octokit.rest.issues.createLabel({
           owner,
           repo,
