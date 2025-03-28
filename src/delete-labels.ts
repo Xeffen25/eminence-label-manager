@@ -34,7 +34,7 @@ export async function deleteLabels(): Promise<void> {
         })
         core.info(`Deleted label: ${label.name}`)
       } catch (deleteError) {
-        core.error(
+        core.setFailed(
           `Failed to delete label: ${label.name}. Error: ${deleteError}`
         )
       }

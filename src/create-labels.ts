@@ -35,7 +35,9 @@ export async function createLabels(): Promise<void> {
         typeof label.color !== 'string' ||
         (label.description && typeof label.description !== 'string')
       ) {
-        core.warning(`Invalid label data: ${JSON.stringify(label)}. Skipping.`)
+        core.setFailed(
+          `Invalid label data: ${JSON.stringify(label)}. Skipping.`
+        )
         continue
       }
 
@@ -68,33 +70,35 @@ export async function createLabels(): Promise<void> {
               core.info(`Updated label: ${label.name}`)
             } catch (updateError) {
               if (updateError instanceof Error) {
-                core.error(
+                core.setFailed(
                   `Failed to create or update label: ${label.name}. Error: ${updateError.message}`
                 )
               } else {
-                core.error(
+                core.setFailed(
                   `Failed to create or update label: ${label.name}. Error: ${updateError}`
                 )
               }
             }
           } else {
             if (error instanceof Error) {
-              core.error(
+              core.setFailed(
                 `Failed to create label: ${label.name}. Error: ${error.message}`
               )
             } else {
-              core.error(
+              core.setFailed(
                 `Failed to create label: ${label.name}. Error: ${error}`
               )
             }
           }
         } else {
           if (error instanceof Error) {
-            core.error(
+            core.setFailed(
               `Failed to create label: ${label.name}. Error: ${error.message}`
             )
           } else {
-            core.error(`Failed to create label: ${label.name}. Error: ${error}`)
+            core.setFailed(
+              `Failed to create label: ${label.name}. Error: ${error}`
+            )
           }
         }
       }
