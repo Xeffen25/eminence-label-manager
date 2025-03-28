@@ -51,56 +51,7 @@ export async function createLabels(): Promise<void> {
         })
         core.info(`Created label: ${label.name}`)
       } catch (error) {
-        // Narrow the type of the caught error.
-        if (
-          error instanceof Error &&
-          'status' in error &&
-          typeof (error as any).status === 'number'
-        ) {
-          const createError = error as any // Type assertion to access 'status'
-          if (createError.status === 422) {
-            try {
-              await octokit.rest.issues.updateLabel({
-                owner,
-                repo,
-                name: label.name,
-                color: label.color,
-                description: label.description
-              })
-              core.info(`Updated label: ${label.name}`)
-            } catch (updateError) {
-              if (updateError instanceof Error) {
-                core.setFailed(
-                  `Failed to create or update label: ${label.name}. Error: ${updateError.message}`
-                )
-              } else {
-                core.setFailed(
-                  `Failed to create or update label: ${label.name}. Error: ${updateError}`
-                )
-              }
-            }
-          } else {
-            if (error instanceof Error) {
-              core.setFailed(
-                `Failed to create label: ${label.name}. Error: ${error.message}`
-              )
-            } else {
-              core.setFailed(
-                `Failed to create label: ${label.name}. Error: ${error}`
-              )
-            }
-          }
-        } else {
-          if (error instanceof Error) {
-            core.setFailed(
-              `Failed to create label: ${label.name}. Error: ${error.message}`
-            )
-          } else {
-            core.setFailed(
-              `Failed to create label: ${label.name}. Error: ${error}`
-            )
-          }
-        }
+        core.setFailed(`Error creating label: ${label.name}. ${error}`)
       }
     }
 
