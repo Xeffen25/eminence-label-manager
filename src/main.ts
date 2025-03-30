@@ -5,13 +5,25 @@ import { deleteLabels } from './delete-labels.ts'
 
 export async function run(): Promise<void> {
   try {
+    core.info('STATING LABELS DELETION')
     await deleteLabels()
-    await createLabels()
+    core.info('ENDED LABELS DELETION')
   } catch (error) {
     if (error instanceof Error) {
-      core.setFailed(error.message)
+      core.setFailed(`UNKNON ERROR DELETING LABELS: , ${error.message}`)
     } else {
-      core.setFailed(`An unknown error occurred: ${error}`)
+      core.setFailed(`UNKNON ERROR DELETING LABELS: ${error}`)
+    }
+  }
+  try {
+    core.info('STATING LABELS DELETION')
+    await createLabels()
+    core.info('ENDED LABELS DELETION')
+  } catch (error) {
+    if (error instanceof Error) {
+      core.setFailed(`UNKNON ERROR CREATING LABELS: , ${error.message}`)
+    } else {
+      core.setFailed(`UNKNON ERROR CREATING LABELS: ${error}`)
     }
   }
 }

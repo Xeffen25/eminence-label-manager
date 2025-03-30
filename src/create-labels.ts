@@ -10,54 +10,51 @@ import * as path from 'path'
  * @returns Resolves when the action is complete.
  */
 export async function createLabels(): Promise<void> {
-  try {
-    const token = core.getInput('token', { required: true })
-    const octokit = github.getOctokit(token)
-    const { owner, repo } = github.context.repo
+  core.info('Retriving token from input')
+  const token = core.getInput('token', { required: true })
+  core.info('Creating octokit instance')
+  const octokit = github.getOctokit(token)
+  core.info('Retriving repo and owner information')
+  const { owner, repo } = github.context.repo
 
-    const labelsFilePath = path.join('.github', 'labels.json')
+  core.info('Reading labels.json file')
+  const labelsFilePath = path.join('.github', 'labels.json')
+  if (!fs.existsSync(labelsFilePath)) {
+    core.setFailed(`labels.json not found at ${labelsFilePath}`)
+    return
+  }
+  const labelsData = JSON.parse(fs.readFileSync(labelsFilePath, 'utf8'))
 
-    if (!fs.existsSync(labelsFilePath)) {
-      core.setFailed(`labels.json not found at ${labelsFilePath}`)
-      return
+  core.info('Cheking if labels.json is an array')
+  if (!Array.isArray(labelsData)) {
+    core.setFailed('labels.json does not contain an array.')
+    return
+  }
+
+  core.info('Stating label creating loop')
+  for (const label of labelsData) {
+    core.info('Checking label data is valid')
+    if (
+      typeof label.name !== 'string' ||
+      typeof label.color !== 'string' ||
+      (label.description && typeof label.description !== 'string')
+    ) {
+      core.warning(`Invalid label data: ${JSON.stringify(label)}. Skipping.`)
+      continue
     }
 
-    const labelsData = JSON.parse(fs.readFileSync(labelsFilePath, 'utf8'))
-
-    if (!Array.isArray(labelsData)) {
-      core.setFailed('labels.json does not contain an array.')
-      return
+    try {
+      core.info(`Trying to create label: ${label.name}`)
+      await octokit.rest.issues.createLabel({
+        owner,
+        repo,
+        name: label.name,
+        color: label.color,
+        description: label.description
+      })
+      core.info(`Created label: ${label.name}`)
+    } catch (error) {
+      core.setFailed(`Error creating label: ${label.name}. ${error}`)
     }
-
-    for (const label of labelsData) {
-      if (
-        typeof label.name !== 'string' ||
-        typeof label.color !== 'string' ||
-        (label.description && typeof label.description !== 'string')
-      ) {
-        core.setFailed(
-          `Invalid label data: ${JSON.stringify(label)}. Skipping.`
-        )
-        continue
-      }
-
-      try {
-        core.info(`Trying to create label: ${label.name}`)
-        await octokit.rest.issues.createLabel({
-          owner,
-          repo,
-          name: label.name,
-          color: label.color,
-          description: label.description
-        })
-        core.info(`Created label: ${label.name}`)
-      } catch (error) {
-        core.setFailed(`Error creating label: ${label.name}. ${error}`)
-      }
-    }
-
-    core.info('Label creation/update process completed.')
-  } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
   }
 }
