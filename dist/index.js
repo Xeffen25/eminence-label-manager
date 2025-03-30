@@ -31238,87 +31238,47 @@ var githubExports = requireGithub();
  * @returns Resolves when the action is complete.
  */
 async function createLabels() {
-    try {
-        const token = coreExports.getInput('token', { required: true });
-        const octokit = githubExports.getOctokit(token);
-        const { owner, repo } = githubExports.context.repo;
-        const labelsFilePath = require$$1.join('.github', 'labels.json');
-        if (!require$$1$1.existsSync(labelsFilePath)) {
-            coreExports.setFailed(`labels.json not found at ${labelsFilePath}`);
-            return;
-        }
-        const labelsData = JSON.parse(require$$1$1.readFileSync(labelsFilePath, 'utf8'));
-        if (!Array.isArray(labelsData)) {
-            coreExports.setFailed('labels.json does not contain an array.');
-            return;
-        }
-        for (const label of labelsData) {
-            if (typeof label.name !== 'string' ||
-                typeof label.color !== 'string' ||
-                (label.description && typeof label.description !== 'string')) {
-                coreExports.warning(`Invalid label data: ${JSON.stringify(label)}. Skipping.`);
-                continue;
-            }
-            try {
-                await octokit.rest.issues.createLabel({
-                    owner,
-                    repo,
-                    name: label.name,
-                    color: label.color,
-                    description: label.description
-                });
-                coreExports.info(`Created label: ${label.name}`);
-            }
-            catch (error) {
-                // Narrow the type of the caught error.
-                if (error instanceof Error &&
-                    'status' in error &&
-                    typeof error.status === 'number') {
-                    const createError = error; // Type assertion to access 'status'
-                    if (createError.status === 422) {
-                        try {
-                            await octokit.rest.issues.updateLabel({
-                                owner,
-                                repo,
-                                name: label.name,
-                                color: label.color,
-                                description: label.description
-                            });
-                            coreExports.info(`Updated label: ${label.name}`);
-                        }
-                        catch (updateError) {
-                            if (updateError instanceof Error) {
-                                coreExports.error(`Failed to create or update label: ${label.name}. Error: ${updateError.message}`);
-                            }
-                            else {
-                                coreExports.error(`Failed to create or update label: ${label.name}. Error: ${updateError}`);
-                            }
-                        }
-                    }
-                    else {
-                        if (error instanceof Error) {
-                            coreExports.error(`Failed to create label: ${label.name}. Error: ${error.message}`);
-                        }
-                        else {
-                            coreExports.error(`Failed to create label: ${label.name}. Error: ${error}`);
-                        }
-                    }
-                }
-                else {
-                    if (error instanceof Error) {
-                        coreExports.error(`Failed to create label: ${label.name}. Error: ${error.message}`);
-                    }
-                    else {
-                        coreExports.error(`Failed to create label: ${label.name}. Error: ${error}`);
-                    }
-                }
-            }
-        }
-        coreExports.info('Label creation/update process completed.');
+    coreExports.info('Retriving token from input');
+    const token = coreExports.getInput('token', { required: true });
+    coreExports.info('Creating octokit instance');
+    const octokit = githubExports.getOctokit(token);
+    coreExports.info('Retriving repo and owner information');
+    const { owner, repo } = githubExports.context.repo;
+    coreExports.info('Reading labels.json file');
+    const labelsFilePath = require$$1.join('.github', 'labels.json');
+    if (!require$$1$1.existsSync(labelsFilePath)) {
+        coreExports.setFailed(`labels.json not found at ${labelsFilePath}`);
+        return;
     }
-    catch (error) {
-        if (error instanceof Error)
-            coreExports.setFailed(error.message);
+    const labelsData = JSON.parse(require$$1$1.readFileSync(labelsFilePath, 'utf8'));
+    coreExports.info('Cheking if labels.json is an array');
+    if (!Array.isArray(labelsData)) {
+        coreExports.setFailed('labels.json does not contain an array.');
+        return;
+    }
+    coreExports.info('Stating label creating loop');
+    for (const label of labelsData) {
+        coreExports.info('Checking label data is valid');
+        if (typeof label.name !== 'string' ||
+            typeof label.color !== 'string' ||
+            (label.description && typeof label.description !== 'string')) {
+            coreExports.warning(`Invalid label data: ${JSON.stringify(label)}. Skipping.`);
+            continue;
+        }
+        try {
+            coreExports.info(`Trying to create label: ${label.name}`);
+            await octokit.rest.issues.createLabel({
+                owner,
+                repo,
+                name: label.name,
+                color: label.color,
+                description: label.description
+            });
+            coreExports.info(`Created label: ${label.name}`);
+        }
+        catch (error) {
+            coreExports.setFailed(`Error creating label: ${label.name}. ${error}`);
+        }
     }
 }
 
@@ -31353,7 +31313,7 @@ async function deleteLabels() {
                 coreExports.info(`Deleted label: ${label.name}`);
             }
             catch (deleteError) {
-                coreExports.error(`Failed to delete label: ${label.name}. Error: ${deleteError}`);
+                coreExports.setFailed(`Failed to delete label: ${label.name}. Error: ${deleteError}`);
             }
         }
         coreExports.info('Label deletion process completed.');
@@ -31368,15 +31328,29 @@ async function deleteLabels() {
 // main.ts
 async function run() {
     try {
+        coreExports.info('STATING LABELS DELETION');
         await deleteLabels();
-        await createLabels();
+        coreExports.info('ENDED LABELS DELETION');
     }
     catch (error) {
         if (error instanceof Error) {
-            coreExports.setFailed(error.message);
+            coreExports.setFailed(`UNKNON ERROR DELETING LABELS: , ${error.message}`);
         }
         else {
-            coreExports.setFailed(`An unknown error occurred: ${error}`);
+            coreExports.setFailed(`UNKNON ERROR DELETING LABELS: ${error}`);
+        }
+    }
+    try {
+        coreExports.info('STATING LABELS DELETION');
+        await createLabels();
+        coreExports.info('ENDED LABELS DELETION');
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            coreExports.setFailed(`UNKNON ERROR CREATING LABELS: , ${error.message}`);
+        }
+        else {
+            coreExports.setFailed(`UNKNON ERROR CREATING LABELS: ${error}`);
         }
     }
 }
