@@ -1,11 +1,8 @@
-// delete-labels.js
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 
 /**
  * Deletes all labels in the repository.
- *
- * @returns Resolves when the action is complete.
  */
 export async function deleteLabels(): Promise<void> {
   try {
@@ -39,10 +36,7 @@ export async function deleteLabels(): Promise<void> {
         )
       }
     }
-
-    core.info('Label deletion process completed.')
   } catch (error) {
-    // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
   }
 }
