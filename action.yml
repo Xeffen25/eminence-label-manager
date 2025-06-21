@@ -1,5 +1,5 @@
 name: Eminence Label Manager
-description: Manage a repository issue labels using a JSON file.
+description: Manage repository labels with JSON.
 author: Xeffen25
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
