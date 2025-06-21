@@ -1,5 +1,5 @@
-name: Eminence Label Manager
-description: Manage repository labels with JSON.
+name: Eminence Label Managers
+description: Manage repository labels with JSON
 author: Xeffen25
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
@@ -10,7 +10,7 @@ branding:
 # Define your inputs here.
 inputs:
   token:
-    description: Your GITHUB_TOKEN
+    description: Your token
     required: true
 
 runs:
