@@ -1,6 +1,6 @@
 name: Eminence Label Manager
-description: Action that manages a repository's labels using a JSON file.
-author: Your name or organization here
+description: Manage a repository issue labels using a JSON file.
+author: Xeffen25
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
