@@ -10,7 +10,7 @@ branding:
 # Define your inputs here.
 inputs:
   token:
-    description: Your github.token
+    description: Your secrets.GITHUB_TOKEN
     required: true
 
 runs:
