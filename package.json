@@ -1,17 +1,17 @@
 {
-  "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
-  "version": "0.0.0",
-  "author": "",
+  "name": "eminence-label-manager",
+  "description": "GitHub Actions to manage a repository's labels with a JSON file.",
+  "version": "1.0.0",
+  "author": "Xeffen25",
   "type": "module",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
+  "homepage": "https://github.com/Xeffen25/eminence-label-manager",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/actXeffen25ions/eminence-label-manager.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/Xeffen25/eminence-label-manager/issues"
   },
   "keywords": [
     "actions"
