@@ -7,7 +7,7 @@ a GitHub workflow.
 
 ## Steps to Integrate
 
-### 1. Create `labels.json`:
+### 1. Create `labels.json`
 
 - In your repository's `.github` directory, create a file named `labels.json`.
 - Populate `labels.json` with an array of label objects. Each object should
@@ -31,7 +31,7 @@ a GitHub workflow.
 ]
 ```
 
-### 2. Create `labels.yml` Workflow:
+### 2. Create `labels.yml` Workflow
 
 - In your repository's `.github/workflows` directory, create a file named
   `labels.yml`.
