@@ -40,25 +40,25 @@ a GitHub workflow.
 ```yaml
 name: Manage Labels
 on:
-    workflow_dispatch:
-    push:
-        branches:
-            - main
-        paths:
-            - .github/labels.json
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/labels.json
 jobs:
-    manage_labels:
-        runs-on: ubuntu-latest
-        permissions:
-            issues: write
-        steps:
-            - name: Checkout repository
-                uses: actions/checkout@v4
+  manage_labels:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Run Eminence Label Manager
-                uses: Xeffen25/eminence-label-manager@1.0.0
-                with:
-                    token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Eminence Label Manager
+        uses: Xeffen25/eminence-label-manager@1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## How it Works
