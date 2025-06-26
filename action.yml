@@ -10,7 +10,7 @@ branding:
 # Define your inputs here.
 inputs:
   token:
-    description: Your secrets.GITHUB_TOKEN
+    description: "The GitHub token used to authenticate with the GitHub API. Usually ${{ secrets.GITHUB_TOKEN }}."
     required: true
 
 runs:
