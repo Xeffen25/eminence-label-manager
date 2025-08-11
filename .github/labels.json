@@ -1,0 +1,97 @@
+[
+	{
+		"name": "Bug",
+		"color": "d9534f",
+		"description": "Something isn't working."
+	},
+	{
+		"name": "CRITICAL",
+		"color": "d11a2a",
+		"description": "Needs to be done urgently."
+	},
+	{
+		"name": "Feature",
+		"color": "f0ad4e",
+		"description": "New feature or request."
+	},
+	{
+		"name": "Documentation",
+		"color": "5bc0de",
+		"description": "Related to project documentation."
+	},
+	{
+		"name": "Duplicate",
+		"color": "95a5a6",
+		"description": "This issue or pull request already exists."
+	},
+	{
+		"name": "Good First Issue",
+		"color": "9b59b6",
+		"description": "Good for newcomers."
+	},
+	{
+		"name": "Help Wanted",
+		"color": "3498db",
+		"description": "Extra attention is needed."
+	},
+	{
+		"name": "Invalid",
+		"color": "f7f066",
+		"description": "This doesn't seem right."
+	},
+	{
+		"name": "Question",
+		"color": "2980b9",
+		"description": "Further information is requested."
+	},
+	{
+		"name": "SEO",
+		"color": "2ecc71",
+		"description": "Related to search engine optimization."
+	},
+	{
+		"name": "Page",
+		"color": "1abc9c",
+		"description": "Page needs creating."
+	},
+	{
+		"name": "Accessibility",
+		"color": "8e44ad",
+		"description": "Improvements for accessibility."
+	},
+	{
+		"name": "Code Quality",
+		"color": "f39c12",
+		"description": "Code improvements without changing functionality."
+	},
+	{
+		"name": "Performance",
+		"color": "27ae60",
+		"description": "Optimizing performance."
+	},
+	{
+		"name": "Security",
+		"color": "e74c3c",
+		"description": "Fixing security vulnerabilities."
+	},
+	{
+		"name": "Styling",
+		"color": "00bcff",
+		"description": "UI or Tailwind-related changes."
+	},
+	{
+		"name": "Dependencies",
+		"color": "800080",
+		"description": "Dependencies have updates available."
+	},
+	{
+		"name": "Format",
+		"color": "c2e0c6",
+		"description": "Related to files format."
+	},
+	{
+		"name": "Testing",
+		"color": "000000",
+		"description": "Testing related"
+	}
+]
