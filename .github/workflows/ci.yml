@@ -9,7 +9,7 @@ on:
       - main
 
 permissions:
-  contents: read
+  issues: write
 
 jobs:
   test-typescript:
